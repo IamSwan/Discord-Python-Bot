@@ -6,6 +6,7 @@ import dotenv
 
 config = dotenv.load_dotenv(".env")
 token = os.getenv("TOKEN")
+ID = os.getenv("ID")
 
 client = commands.Bot(intents=discord.Intents.all(), command_prefix="$")
 
@@ -33,7 +34,7 @@ async def avadakedavra(ctx, member: discord.Member, *, reason=None):
 @client.command()
 async def help(ctx):
     if ctx.channel.name == "bot-cmds" or ctx.author.guild_permissions.manage_messages:
-        await ctx.send(f"**__Help__** \n    **$trello** - Get the link to the Trello board\n    **$faq** - Answers to the most common questions \n    **$links** - Links to the official group, the game's page\n    **$ping** - Pong!\n    **$help** - Shows this message \n*There's also a few easter eggs only for admins*")
+        await ctx.send(f"**__Help__** \n    **$trello** - Get the link to the Trello board\n    **$faq** - Answers to the most common questions \n    **$links** - Links to the official group, the game's page\n    **$ping** - Pong!\n *There's also a few easter eggs only for admins*")
 
 @client.command()
 async def trello(ctx):
@@ -52,22 +53,29 @@ async def links(ctx):
 
 @client.command()
 async def ping(ctx):
-    latency = client.latency
-    latency = str(latency)
-    latency = latency[0:5]
-    await ctx.send(f"pong! :troll: \nlatency: {str(latency)} ms")
+    if ctx.channel.name == "bot-cmds" or ctx.author.guild_permissions.manage_messages:
+        latency = client.latency
+        latency = str(latency)
+        latency = latency[0:5]
+        await ctx.send(f"pong!\nlatency: {str(latency)} ms")
 
 
 @client.listen('on_message')
 async def on_message(msg: discord.Message):
     if msg.author == client.user:
         return
-    if msg.content.__contains__("rockyuwu"):
+    if msg.content.lower().__contains__("rockyuwu"):
         await msg.channel.send("rocky owner UwU.")
 
-    if msg.author.id == 291463810449932298 and msg.content.lower() == "bot, stop":
+    if msg.content.lower().__contains__("ultima the goat".lower()):
+        await msg.channel.send("He knows bru.")
+    
+    if msg.author.id == int(ID) and msg.content.lower() == "bot_stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
         sys.exit()
-
+    
+    if msg.author.id == int(ID) and msg.content.lower() == "bot, stop":
+        await msg.channel.send("*ok :(*\n**shutting down...**")
+        sys.exit()
 
 client.run(token)
