@@ -68,16 +68,17 @@ async def ping(ctx):
 
 @client.command()
 async def ask(ctx: commands.context, *, question: str):
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=question,
-        max_tokens=max_tokens,
-        temperature=0.5,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    await ctx.send(response.choices[0].text)
+    if ctx.channel.name == "bot-cmds" or ctx.author.guild_permissions.manage_messages:
+        response = openai.Completion.create(
+            engine=model_engine,
+            prompt=question,
+            max_tokens=max_tokens,
+            temperature=0.5,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        await ctx.send(response.choices[0].text)
 
 @client.listen('on_message')
 async def on_message(msg: discord.Message):
