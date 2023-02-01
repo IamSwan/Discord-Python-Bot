@@ -2,13 +2,18 @@
 
 import discord
 from discord.ext import commands
-import sys
+import openai
 import os
 import dotenv
 
 config = dotenv.load_dotenv(".env")
 token = os.getenv("TOKEN")
+OPENAI_API_KEY = dotenv.get_key('.env', 'OPENAI_KEY')
 ID = os.getenv("ID")
+openai.api_key = OPENAI_API_KEY
+
+model_engine = "text-davinci-003"
+max_tokens = 2048
 
 client = commands.Bot(intents=discord.Intents.all(), command_prefix="$")
 
@@ -61,6 +66,18 @@ async def ping(ctx):
         latency = latency[0:5]
         await ctx.send(f"pong!\nlatency: {str(latency)} ms")
 
+@client.command()
+async def ask(ctx: commands.context, *, question: str):
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=question,
+        max_tokens=max_tokens,
+        temperature=0.5,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    await ctx.send(response.choices[0].text)
 
 @client.listen('on_message')
 async def on_message(msg: discord.Message):
