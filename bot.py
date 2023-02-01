@@ -74,10 +74,15 @@ async def on_message(msg: discord.Message):
     
     if msg.author.id == int(ID) and msg.content.lower() == "bot_stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
-        sys.exit()
+        await client.close()
     
     if msg.author.id == int(ID) and msg.content.lower() == "bot, stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
-        sys.exit()
+        await client.close()
+    
+    if msg.author.id == int(ID) and msg.content.lower() == "bot stop":
+        await msg.channel.send("*ok :(*\n**shutting down...**")
+        await client.close()
 
 client.run(token)
+print("Bot is offline.")
