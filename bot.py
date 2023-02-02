@@ -106,5 +106,3 @@ async def on_message(msg: discord.Message):
 
 client.run(token)
 print("Bot is offline.")
-
-#test
