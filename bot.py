@@ -84,7 +84,7 @@ async def on_message(msg: discord.Message):
     if msg.author.id == int(my_id) and msg.content.lower() == "bot stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
         await bot.close()
-    if msg.content.lower().__contains__("uwu"):
+    if msg.content.lower().__contains__("uwu") and not msg.content.lower().__contains__("rockyuwu"):
         await msg.channel.send("UwU daddy..")
 
 bot.run(token)
