@@ -7,7 +7,8 @@ import dotenv
 
 config = dotenv.load_dotenv(".env")
 token = os.getenv("TOKEN")
-ID = os.getenv("ID")
+my_id = os.getenv("ID")
+leg_id = os.getenv("LegendID")
 
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix="$")
 
@@ -72,19 +73,21 @@ async def on_message(msg: discord.Message):
     if msg.content.lower().__contains__("ultima the goat".lower()):
         await msg.channel.send("He knows bru.")
     
-    if msg.author.id == int(ID) and msg.content.lower() == "bot_stop":
+    if msg.author.id == int(my_id) and msg.content.lower() == "bot_stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
         await bot.close()
     
-    if msg.author.id == int(ID) and msg.content.lower() == "bot, stop":
+    if msg.author.id == int(my_id) and msg.content.lower() == "bot, stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
         await bot.close()
     
-    if msg.author.id == int(ID) and msg.content.lower() == "bot stop":
+    if msg.author.id == int(my_id) and msg.content.lower() == "bot stop":
         await msg.channel.send("*ok :(*\n**shutting down...**")
         await bot.close()
     if msg.content.lower().__contains__("uwu"):
         await msg.channel.send("UwU daddy..")
+    if msg.author.id == int(leg_id):
+        msg.reply("Stfu bozo")
 
 bot.run(token)
 print("Bot is offline.")
