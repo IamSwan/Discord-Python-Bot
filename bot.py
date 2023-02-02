@@ -8,12 +8,7 @@ import dotenv
 
 config = dotenv.load_dotenv(".env")
 token = os.getenv("TOKEN")
-OPENAI_API_KEY = dotenv.get_key('.env', 'OPENAI_KEY')
 ID = os.getenv("ID")
-openai.api_key = OPENAI_API_KEY
-
-model_engine = "text-davinci-003"
-max_tokens = 2048
 
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix="$")
 
@@ -67,20 +62,6 @@ async def ping(ctx):
         latency = str(latency)
         latency = latency[0:5]
         await ctx.send(f"pong!\nlatency: {str(latency)} ms")
-
-@bot.command()
-async def ask(ctx: commands.context, *, question: str):
-    if ctx.channel.name == "bot-cmds" or ctx.author.guild_permissions.manage_messages:
-        response = openai.Completion.create(
-            engine=model_engine,
-            prompt=question,
-            max_tokens=max_tokens,
-            temperature=0.5,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        await ctx.send(response.choices[0].text)
 
 @bot.listen('on_message')
 async def on_message(msg: discord.Message):
