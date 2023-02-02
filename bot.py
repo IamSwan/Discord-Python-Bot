@@ -87,7 +87,7 @@ async def on_message(msg: discord.Message):
     if msg.content.lower().__contains__("uwu"):
         await msg.channel.send("UwU daddy..")
     if msg.author.id == int(leg_id):
-        msg.reply("Stfu bozo")
+        await msg.reply("Stfu bozo")
 
 bot.run(token)
 print("Bot is offline.")
